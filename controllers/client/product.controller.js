@@ -1,5 +1,5 @@
 module.exports.index = (req, res) => {
   res.render("client/pages/products/index.pug", {
-    titlePage: "Sản Phẩm"
+    pageTitle: "Sản Phẩm"
   });
 }
