@@ -2,6 +2,7 @@ const Product = require("../../models/product.model")
 
 // [GET] /adimin/products
 module.exports.index = async (req, res) => {
+  // render ra các nút và xử lý thêm class = "active"
   let filterStatus = [
     {
       name: "Tất cả",
@@ -26,6 +27,7 @@ module.exports.index = async (req, res) => {
   } else {
     filterStatus[0].class = "active"
   }
+  // end render ra các nút và xử lý thêm class = "active"
 
   let find = {
     deleted: false
@@ -33,6 +35,9 @@ module.exports.index = async (req, res) => {
 
   if (req.query.status) {
     find.status = req.query.status;
+  }
+  if (req.query.keyword) {
+    find.title = req.query.keyword;
   }
   const products = await Product.find(find);
   res.render("admin/pages/products/index", {
