@@ -1,33 +1,13 @@
 const Product = require("../../models/product.model")
+const filterStatusHelpers = require("../../helpers/filter-status")
+const sreachHelpers = require("../../helpers/sreach")
 
 // [GET] /adimin/products
 module.exports.index = async (req, res) => {
-  // render ra các nút và xử lý thêm class = "active"
-  let filterStatus = [
-    {
-      name: "Tất cả",
-      status: "",
-      class: ""
-    },
-    {
-      name: "Hoạt động",
-      status: "active",
-      class: ""
-    },
-    {
-      name: "Dừng hoạt động",
-      status: "inactive",
-      class: ""
-    }
-  ];
+  // filterStatus
+  let filterStatus = filterStatusHelpers(req.query);
+  // End filterStatus
 
-  if (req.query.status) {
-    const index = filterStatus.findIndex(item => item.status == req.query.status)
-    filterStatus[index].class = "active"
-  } else {
-    filterStatus[0].class = "active"
-  }
-  // end render ra các nút và xử lý thêm class = "active"
 
   let find = {
     deleted: false
@@ -37,18 +17,16 @@ module.exports.index = async (req, res) => {
     find.status = req.query.status;
   }
 
-  let keyword = "";
-  if (req.query.keyword) {
-    keyword = req.query.keyword
+  // Sreach
+  let objectSreach = sreachHelpers(req.query);
+  find.title = objectSreach.regex;
+  // End sreach
 
-    const regex = new RegExp(keyword, "i");
-    find.title = regex;
-  }
   const products = await Product.find(find);
   res.render("admin/pages/products/index", {
     pageTitle: "trang Sản phẩm",
     products: products,
     filterStatus: filterStatus,
-    keyword: keyword
+    keyword: objectSreach.keyword
   });
 }
