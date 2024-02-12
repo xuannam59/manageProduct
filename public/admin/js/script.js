@@ -53,3 +53,60 @@ if (buttonPagination.length > 0) {
   })
 }
 // End pagination
+
+// Checkbox multi
+const checkboxMuli = document.querySelector("[checkbox-multi]");
+if (checkboxMuli) {
+  const inputCheckAll = checkboxMuli.querySelector("input[name='checkall']");
+  const inputsCheck = checkboxMuli.querySelectorAll("input[name='id']");
+  inputCheckAll.addEventListener("click", () => {
+    if (inputCheckAll.checked) {
+      inputsCheck.forEach(input => {
+        input.checked = true;
+      })
+    } else {
+      inputsCheck.forEach(input => {
+        input.checked = false;
+      })
+    }
+  })
+
+  inputsCheck.forEach(input => {
+    input.addEventListener("click", () => {
+      const coutChecked = checkboxMuli.querySelectorAll("input[name='id']:checked").length;
+      if (coutChecked === inputsCheck.length) {
+        inputCheckAll.checked = true;
+      } else {
+        inputCheckAll.checked = false;
+      }
+    })
+  })
+}
+
+
+// End Checkbox multi
+
+// from submit
+const fromChangeMulti = document.querySelector("[form-change-multi]");
+if (fromChangeMulti) {
+  fromChangeMulti.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const checkboxMuli = document.querySelector("[checkbox-multi]");
+    const inputsChecked = checkboxMuli.querySelectorAll("input[name='id']:checked");
+
+    if (inputsChecked.length > 0) {
+      let ids = [];
+      const inputsId = fromChangeMulti.querySelector("input[name='ids']");
+      inputsChecked.forEach(input => {
+        const id = input.value;
+        ids.push(id);
+      })
+      inputsId.value = ids.join(", ");
+
+      fromChangeMulti.submit();
+    } else {
+      alert("Choose one record");
+    }
+  })
+}
+// end from submit
