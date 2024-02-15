@@ -50,3 +50,42 @@
 }
 
 /* End Sider */
+/* Alert */
+[show-alert] {
+  position: fixed;
+  top: 70px;
+  right: 15px;
+  z-index: 9999;
+}
+
+[show-alert].alert-hidden {
+  animation-name: alert-hiddent;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+@keyframes alert-hiddent {
+  from {
+    right: 15px;
+  }
+
+  to {
+    right: -100%;
+    display: none;
+  }
+}
+
+[show-alert] [alert-close] {
+  position: absolute;
+  top: -5px;
+  right: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+[show-alert] [alert-close]:hover {
+  opacity: 0.5;
+}
+
+/* End alert */
