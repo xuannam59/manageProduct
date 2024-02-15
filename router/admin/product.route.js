@@ -5,11 +5,15 @@ const controller = require("../../controllers/admin/product.control");
 
 route.get("/", controller.index);
 
-route.patch("/change-status/:status/:id", controller.changeStatus)
+route.patch("/change-status/:status/:id", controller.changeStatus);
 
-route.patch("/change-multi", controller.changeMulti)
+route.patch("/change-multi", controller.changeMulti);
 
-route.delete("/delete/:id", controller.deleteItem)
+route.delete("/delete/:id", controller.deleteItem);
+
+route.get("/create", controller.create);
+
+route.post("/create", controller.createPost);
 
 
 module.exports = route;
