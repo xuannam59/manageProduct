@@ -126,7 +126,7 @@ if (fromChangeMulti) {
   })
 }
 // end from submit
-// alert
+// show alert
 const showAlert = document.querySelector("[show-alert]");
 if (showAlert) {
   const alertClose = showAlert.querySelector("[alert-close]");
@@ -140,4 +140,23 @@ if (showAlert) {
     })
   }
 }
-// end alert
+// end show alert
+
+// Preview image
+const uploadImage = document.querySelector("[upload-image]");
+if (uploadImage) {
+  const uploadImageInput = uploadImage.querySelector("[upload-image-input]");
+  const uploadImagePreview = uploadImage.querySelector("[upload-image-preview]");
+  uploadImageInput.addEventListener("change", e => {
+    const file = e.target.files[0];
+    if (file) {
+      uploadImagePreview.src = URL.createObjectURL(file);
+    }
+  })
+  const imageClose = uploadImage.querySelector(".image-close");
+  imageClose.addEventListener("click", () => {
+    uploadImageInput.value = "";
+    uploadImagePreview.src = "";
+  })
+}
+// End Preview image

@@ -7,6 +7,7 @@ block main
     action= `${prefitAdmin}/products/create`
     id= "form-create-product"
     method= "POST"
+    enctype="multipart/form-data"
   )
     div(class="form-group")
       label(for="title") Tiêu đề
@@ -36,15 +37,15 @@ block main
         min="0"
       )
     div(class="form-group")
-    label(for="discout") % Giảm giá
-    input(
-      type="number"
-      class="form-control"
-      id="discout"
-      name="discountPercentage"
-      value="0"
-      min="0"
-    )
+      label(for="discout") % Giảm giá
+      input(
+        type="number"
+        class="form-control"
+        id="discout"
+        name="discountPercentage"
+        value="0"
+        min="0"
+      )
     div(class="form-group")
       label(for="sock") Số lượng
       input(
@@ -55,14 +56,26 @@ block main
         value="0"
         min="0"
       )
-    div(class="form-group")
+    div(
+      class="form-group"
+      upload-image
+    )
       label(for="thumbnail") Ảnh
       input(
-        type="text"
-        class="form-control"
+        type="file"
+        class="form-control-file"
         id="thumbnail"
         name="thumbnail"
+        accept="image/*"
+        upload-image-input
       )
+      span(class="box-image")
+        img(
+          src=""
+          upload-image-preview 
+          class="image-preview"
+        )
+        span(class="image-close") x
     div(class="form-group")
       label(for="position") Vị trí
       input(
