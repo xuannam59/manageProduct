@@ -101,7 +101,6 @@ module.exports.changeMulti = async (req, res) => {
 // [DELETE] /admin/product/delete/:id
 module.exports.deleteItem = async (req, res) => {
   const id = req.params.id;
-
   // await Product.deleteOne({ _id: id });
   await Product.updateOne({ _id: id },
     {
@@ -112,32 +111,74 @@ module.exports.deleteItem = async (req, res) => {
   res.redirect('back');
 }
 
+// [GET] /admin/products/create
 module.exports.create = async (req, res) => {
   res.render("admin/pages/products/create", {
     pageTitle: "tạo mới sản phẩm"
   });
 }
 
+// [POST] /admin/products/create
 module.exports.createPost = async (req, res) => {
-  req.body.price = parseInt(req.body.price);
-  req.body.discountPercentage = parseInt(req.body.discountPercentage);
-  req.body.sock = parseInt(req.body.sock);
+  try {
+    req.body.price = parseInt(req.body.price);
+    req.body.discountPercentage = parseInt(req.body.discountPercentage);
+    req.body.sock = parseInt(req.body.sock);
+    if (req.body.position == "") {
+      const countProducts = await Product.countDocuments();
+      req.body.position = countProducts + 1;
+    } else {
+      req.body.position = parseInt(req.body.position);
+    }
+    if (req.file) {
+      req.body.thumbnail = `/uploads/${req.file.filename}`;
+    }
+    const product = new Product(req.body);
+    product.save();
+    req.flash("success", "Thêm mới sản phẩm thành công!");
+    res.redirect(`${systemConfig.prefixAdmin}/products`);
+  } catch (error) {
+    req.flash("error", "Chỉnh sửa thất bại");
+    res.redirect(`${systemConfig.prefixAdmin}/products`);
+  }
+};
 
-  if (req.body.position == "") {
-    const countProducts = await Product.countDocuments();
-    req.body.position = countProducts + 1;
-  } else {
-    req.body.position = parseInt(req.body.position);
+// [GET] /admin/products/edit/:id
+module.exports.edit = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const find = {
+      deleted: false,
+      _id: id
+    }
+    const product = await Product.findOne(find);
+    res.render("admin/pages/products/edit", {
+      pageTitle: "sản phẩm",
+      product: product
+    });
+  } catch (error) {
+    req.flash("error", "Không tồn tại sản phẩm đó");
+    res.redirect(`${systemConfig.prefixAdmin}/products`);
   }
 
+}
+
+// [PATCH] /admin/products/edit/:id
+module.exports.editPatch = async (req, res) => {
+  const id = req.params.id
+  req.body.price = parseFloat(req.body.price);
+  req.body.discountPercentage = parseFloat(req.body.discountPercentage);
+  req.body.stock = parseFloat(req.body.stock);
+  req.body.position = parseFloat(req.body.position);
   if (req.file) {
     req.body.thumbnail = `/uploads/${req.file.filename}`;
   }
-
-  const product = new Product(req.body);
-  product.save();
-
-  req.flash("success", "Thêm mới sản phẩm thành công!");
-
-  res.redirect(`${systemConfig.prefixAdmin}/products`);
-};
+  try {
+    await Product.updateOne({ _id: id }, req.body);
+    req.flash("success", "Cập nhập thành công");
+    res.redirect("back");
+  } catch (error) {
+    req.flash("error", "Cập nhập thất bại");
+    res.redirect("back");
+  }
+}
