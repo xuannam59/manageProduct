@@ -17,9 +17,9 @@ const routeAdmin = require('./router/admin/index.route');
 const route = require('./router/client/index.route');
 
 app.use(methodOverride('_method'));
+
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'pug');
-app.use(express.static(`${__dirname}/public`));
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -32,6 +32,8 @@ app.use(flash());
 
 // App Local variable
 app.locals.prefitAdmin = systemConfig.prefixAdmin;
+app.use(express.static(`${__dirname}/public`));
+
 
 // Route
 route(app);
