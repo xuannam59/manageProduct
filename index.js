@@ -19,7 +19,7 @@ const route = require('./router/client/index.route');
 app.use(methodOverride('_method'));
 app.set('views', './views');
 app.set('view engine', 'pug');
-app.use(express.static('public'));
+app.use(express.static(`public`));
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
