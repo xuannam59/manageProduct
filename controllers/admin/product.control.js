@@ -101,12 +101,12 @@ module.exports.changeMulti = async (req, res) => {
 // [DELETE] /admin/product/delete/:id
 module.exports.deleteItem = async (req, res) => {
   const id = req.params.id;
-  // await Product.deleteOne({ _id: id });
-  await Product.updateOne({ _id: id },
-    {
-      deleted: true,
-      deletedAt: new Date()
-    });
+  await Product.deleteOne({ _id: id });
+  // await Product.updateOne({ _id: id },
+  //   {
+  //     deleted: true,
+  //     deletedAt: new Date()
+  //   });
   req.flash('success', `Đã xoá thành công sản phẩm`);
   res.redirect('back');
 }
@@ -129,9 +129,6 @@ module.exports.createPost = async (req, res) => {
       req.body.position = countProducts + 1;
     } else {
       req.body.position = parseInt(req.body.position);
-    }
-    if (req.file) {
-      req.body.thumbnail = `/uploads/${req.file.filename}`;
     }
     const product = new Product(req.body);
     product.save();
