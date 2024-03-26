@@ -82,8 +82,6 @@ if (checkboxMuli) {
     })
   })
 }
-
-
 // End Checkbox multi
 
 // from submit
@@ -126,6 +124,7 @@ if (fromChangeMulti) {
   })
 }
 // end from submit
+
 // show alert
 const showAlert = document.querySelector("[show-alert]");
 if (showAlert) {
@@ -160,3 +159,37 @@ if (uploadImage) {
   })
 }
 // End Preview image
+
+// Sort product
+const sort = document.querySelector("[sort]");
+if (sort) {
+  let url = new URL(window.location.href);
+
+  const sortSelect = sort.querySelector("[sort-select]");
+  const sortClear = sort.querySelector("[sort-clear]");
+  // arrange product by sort
+  sortSelect.addEventListener("change", e => {
+    const value = e.target.value;
+    const [sortKey, sortValue] = value.split("-");
+
+    url.searchParams.set("sortKey", sortKey);
+    url.searchParams.set("sortValue", sortValue);
+
+    window.location.href = url.href;
+  })
+  // Clear arrange product
+  sortClear.addEventListener("click", () => {
+    url.searchParams.delete("sortKey");
+    url.searchParams.delete("sortValue");
+    window.location.href = url.href;
+  })
+  // Selected option
+  const sortKey = url.searchParams.get("sortKey");
+  const sortValue = url.searchParams.get("sortValue");
+  if (sortKey && sortValue) {
+    const stringSort = `${sortKey}-${sortValue}`;
+    const optionSelect = sortSelect.querySelector(`option[value='${stringSort}']`);
+    optionSelect.selected = true;
+  }
+}
+// End sort Product

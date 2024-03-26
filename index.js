@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const methodOverride = require('method-override');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -20,6 +21,9 @@ app.use(methodOverride('_method'));
 
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'pug');
+
+/* New Route to the TinyMCE Node module */
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
