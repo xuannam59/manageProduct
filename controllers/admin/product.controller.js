@@ -20,9 +20,9 @@ module.exports.index = async (req, res) => {
   // End filterStatus 
 
   // Sreach
-  let objectSreach = sreachHelpers(req.query);
-  if (objectSreach.regex) {
-    find.title = objectSreach.regex;
+  let objectSearch = sreachHelpers(req.query);
+  if (objectSearch.regex) {
+    find.title = objectSearch.regex;
   }
   // End sreach
 
@@ -56,7 +56,7 @@ module.exports.index = async (req, res) => {
     pageTitle: "trang Sản phẩm",
     products: products,
     filterStatus: filterStatus,
-    keyword: objectSreach.keyword,
+    keyword: objectSearch.keyword,
     pagination: objectPagination
   });
 }
