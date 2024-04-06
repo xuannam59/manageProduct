@@ -37,7 +37,6 @@ module.exports.index = async (req, res) => {
   // end pagination
 
   const records = await ProductCategory.find(find)
-  console.log(find);
 
   const newRecords = createTreeHelpers.tree(records);
 
@@ -85,21 +84,43 @@ module.exports.createPost = async (req, res) => {
   }
 };
 
-//[GET] admin/product-category/edit
+//[GET] admin/product-category/edit/:id
 module.exports.edit = async (req, res) => {
-  const id = req.params.id;
-  const find = {
-    _id: id,
-    deleted: false,
+  try {
+    const id = req.params.id;
+    const find = {
+      _id: id,
+      deleted: false,
+    }
+    const data = await ProductCategory.findOne(find);
+
+    const records = await ProductCategory.find({ deleted: false });
+    const newRecords = createTreeHelpers.tree(records);
+
+    res.render("admin/pages/products-category/edit", {
+      pageTitle: "Trang sửa danh mục sản phẩm",
+      data: data,
+      records: newRecords,
+    });
+  } catch (error) {
+    req.flash("error", "Lấy dữ liệu thất bại");
+    res.redirect(`${systemConfig.prefixAdmin}/products-category`);
   }
-  const data = await ProductCategory.findOne(find);
 
-  const records = await ProductCategory.find({ deleted: false });
-  const newRecords = createTreeHelpers.tree(records);
-
-  res.render("admin/pages/products-category/edit", {
-    pageTitle: "Trang sửa danh mục sản phẩm",
-    data: data,
-    records: newRecords,
-  });
 };
+
+//[PATCH] admin/product-category/edit/:id
+module.exports.editPatch = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    req.body.position = parseInt(req.body.position);
+
+    await ProductCategory.updateOne({ _id: id }, req.body)
+    req.flash("success", "Cập nhập danh mục thành công!");
+    res.redirect("back");
+  } catch (error) {
+    req.flash("errer", "Cập nhập danh mục thất bại!");
+    res.redirect("back");
+  }
+}

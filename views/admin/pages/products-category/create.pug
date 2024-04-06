@@ -23,13 +23,15 @@ block main
         name="title"
         required
       )
-    select(
-      class="form-control"
-      id="parent_id"
-      name="parent_id"
-    )
-      option(value="") --Chọn danh mục cha--
-        +select-tree(records)
+    div(class="form-group")
+      label(for="title") Danh mục cha
+      select(
+        class="form-control"
+        id="parent_id"
+        name="parent_id"
+      )
+        option(value="") --Chọn danh mục cha--
+          +select-tree(records)
     div(class="form-group")
       label(for="desc") Mô tả
       textarea(
