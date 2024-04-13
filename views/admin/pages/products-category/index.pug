@@ -8,45 +8,48 @@ include ../../mixins/table-tree.pug
 block main 
   +alert-success(5000)
   +alert-error(5000)
-  h1 Trang danh mục sản phấm
 
-  .card.mb-3
-    .card-header Bộ lọc và Tìm kiếm
-    .card-body
-      .row
-        .col-6
-          +filter-status(filterStatus)
-        .col-6
-          +search(keyword)
-  .card.mb-3
-    .card-header Danh sách
-    .card-body
-      .row 
-        .col-8 
-        .col-4 
-          a(
-            href=`${prefitAdmin}/products-category/create`
-            class ="btn btn-outline-success"
-          ) + thêm mới
+  if(role.permissions.includes("products-category_view"))
+    h1 Trang danh mục sản phấm
 
-      table(
-        class="table table-hover table-sm mt-3"
-        checkbox-multi
-      )
-        thead
-          tr
-            th 
-              input(type="checkbox" name="checkall")
-            th STT
-            th Hình ảnh
-            th Tiêu đề
-            th Vị trí
-            th Trạng thái 
-            th Hành động
+    .card.mb-3
+      .card-header Bộ lọc và Tìm kiếm
+      .card-body
+        .row
+          .col-6
+            +filter-status(filterStatus)
+          .col-6
+            +search(keyword)
+    .card.mb-3
+      .card-header Danh sách
+      .card-body
+        .row 
+          .col-8 
+          .col-4
+            if(role.permissions.includes("products-category_create"))
+              a(
+                href=`${prefitAdmin}/products-category/create`
+                class ="btn btn-outline-success"
+              ) + thêm mới
 
-        tbody
-          +table-tree(records)
+        table(
+          class="table table-hover table-sm mt-3"
+          checkbox-multi
+        )
+          thead
+            tr
+              th 
+                input(type="checkbox" name="checkall")
+              th STT
+              th Hình ảnh
+              th Tiêu đề
+              th Vị trí
+              th Trạng thái 
+              th Hành động
 
-  //- +pagination(pagination)
+          tbody
+            +table-tree(records)
 
-  script(src="/admin/js/product.js")
+    //- +pagination(pagination)
+
+    script(src="/admin/js/product.js")
