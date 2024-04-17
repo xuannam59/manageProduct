@@ -5,6 +5,7 @@ include ../../mixins/pagination.pug
 include ../../mixins/from-change-multi.pug
 include ../../mixins/alert.pug
 include ../../mixins/sort.pug
+include ../../mixins/moment.pug
 
 block main 
   +alert-success(5000)
@@ -55,6 +56,8 @@ block main
               th Giá
               th Vị trí
               th Trạng thái
+              th Người tạo
+              th Người cập nhập
               th Hành động
 
           tbody
@@ -113,6 +116,15 @@ block main
                         href="javascript:;"
                         class="badge badge-danger"
                         ) Dừng hoạt động
+                td
+                  p #{item.accountFullname}
+                  +formatDate(item.createdBy.createAt)
+                td
+                  - const userUpdated = item.updatedBy.splice(-1)[0]
+                  if(userUpdated)
+                    p #{userUpdated.accountFullname}
+                    +formatDate(userUpdated.createAt)
+                    p #{userUpdated.title}
                 td
                   a(
                     href=`${prefitAdmin}/products/detail/${item.id}`
