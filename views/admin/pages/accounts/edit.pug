@@ -5,7 +5,7 @@ block main
   +alert-error(5000)
   +alert-success(5000)
 
-  if(role.permissions.includes("account_edit"))
+  if(role.permissions.includes("accounts_edit"))
     h1(class="mb-4") Thêm mới tài khoản
 
     form(
@@ -64,7 +64,7 @@ block main
           upload-image-input
         )
         img(
-          src= record.avata
+          src= record.avatar
           class="image-preview"
           upload-image-preview
         )

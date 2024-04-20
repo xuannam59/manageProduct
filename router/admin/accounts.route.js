@@ -14,7 +14,7 @@ router.get("/create", controller.create);
 router.get("/create", controller.create);
 
 router.post("/create",
-  upload.single("avata"),
+  upload.single("avatar"),
   uploadCloud.upload,
   validates.createPost,
   controller.createPost
@@ -23,7 +23,7 @@ router.post("/create",
 router.get("/edit/:id", controller.edit);
 
 router.patch("/edit/:id",
-  upload.single("avata"),
+  upload.single("avatar"),
   uploadCloud.upload,
   validates.editPatch,
   controller.editPatch);
