@@ -10,7 +10,9 @@ module.exports.index = async (req, res) => {
     deleted: false,
     status: "active"
   }).limit(6);
-  const newProductPeatured = productHelperes.newPriceProduct(productsPeatured);
+
+  const newProductPeatured = productHelperes.newPriceProducts(productsPeatured);
+
   // Hết lấy ra sản phẩm nổi bật
 
   // Lẩy ra sản phẩm mới
@@ -18,7 +20,7 @@ module.exports.index = async (req, res) => {
     deleted: false,
     status: "active"
   }).sort({ position: "desc" }).limit(6);
-  const newProducts = productHelperes.newPriceProduct(products);
+  const newProducts = productHelperes.newPriceProducts(products);
   // Hết Lẩy ra sản phẩm mới
 
   res.render("client/pages/home/index", {
