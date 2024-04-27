@@ -74,6 +74,7 @@ module.exports.addPost = async (req, res) => {
     );
   };
 
+  req.flash("success", "Thêm sản phẩm vào giỏ hành thành công!");
   res.redirect("back");
 }
 
