@@ -170,7 +170,9 @@ module.exports.otpPasswordPost = async (req, res) => {
     email: email
   });
 
+  // set cookie tokenUser
   res.cookie("tokenUser", user.tokenUser);
+
   res.redirect("/user/password/reset");
 }
 
