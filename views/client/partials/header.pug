@@ -37,10 +37,14 @@ header.header
             if(user)
               li 
                 a(href="/user/logout") Đăng Xuất
+              li 
+                a(href="/user/infor") #{user.fullName}
             else
               li  
                 a(href="/user/register") Đăng ký
               li 
                 a(href="/user/login") Đăng nhập
-              
+            
+            
+             
               

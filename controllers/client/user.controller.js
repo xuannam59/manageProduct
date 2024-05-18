@@ -2,6 +2,7 @@ const md5 = require("md5");
 
 const User = require("../../models/user.model");
 const ForgotPassword = require("../../models/forget-password.model");
+const Cart = require("../../models/cart.model");
 
 const generate = require("../../helpers/generate");
 const sendMailHelpers = require("../../helpers/sendMail");
@@ -76,6 +77,18 @@ module.exports.loginPost = async (req, res) => {
     return;
   }
 
+
+  const card = await Cart.findOne({ user_id: user.id });
+
+  if (card) {
+    res.cookie("cartId", card.id);
+  } else {
+    const cartId = req.cookies.cartId;
+    await Cart.updateOne({ _id: cartId }, { user_id: user.id });
+  }
+
+
+
   res.cookie("tokenUser", user.tokenUser);
   res.redirect("/")
 }
@@ -83,6 +96,7 @@ module.exports.loginPost = async (req, res) => {
 // [GET] /user/logout
 module.exports.logout = (req, res) => {
   res.clearCookie("tokenUser");
+  res.clearCookie("cartId");
   res.redirect("/user/login");
 }
 
@@ -200,4 +214,12 @@ module.exports.resetPasswordPost = async (req, res) => {
     req.flash("error", "Đã có lỗi xảy ra");
     res.redirect("back");
   }
+}
+
+// [GET] /user/infor
+module.exports.infor = (req, res) => {
+
+  res.render("client/pages/user/infor", {
+    pageTitle: "Thông tin tài khoản"
+  })
 }
