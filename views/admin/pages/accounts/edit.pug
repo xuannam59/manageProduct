@@ -6,7 +6,7 @@ block main
   +alert-success(5000)
 
   if(role.permissions.includes("accounts_edit"))
-    h1(class="mb-4") Thêm mới tài khoản
+    h1(class="mb-4") Cập nhập tài khoản
 
     form(
       action=`${prefitAdmin}/accounts/edit/${record.id}?_method=PATCH`
@@ -103,4 +103,4 @@ block main
         button(
           type="submit"
           class="btn btn-primary"
-        ) Tạo mới
+        ) Cập nhập
